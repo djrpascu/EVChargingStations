@@ -3,6 +3,8 @@ var widgetEditor;
 var flChargingStations;
 var routeGraphicLayer;
 
+var newFacilities;
+
 // @formatter:off
 require([
 		"dojo/_base/array",
@@ -74,10 +76,13 @@ require([
             flChargingStations = new FeatureLayer(chargingStationUrl, {
                 outFields: ['*']
             });
-			
+
+
+
+// DO I NEED TO DO THIS TO GET THE FEATURE SET FOR FACILITIES?			
 dojo.ready(function(){
   var xhrArgs = {
-    url: chargingStationUrl + "/query?where=1%3D1&returnGeometry=true&outFields=*&f=json",
+    url: chargingStationUrl + "/query?where=Island%20%3D%20%27Oahu%27&resultRecordCount=100&returnGeometry=true&outFields=*&f=json", // CHEATING INPUT FACILITY REQUIREMENT FOR CLOSESTFACILITY SERVICE
     handleAs: "json",
     preventCache: true
   }
@@ -152,6 +157,7 @@ dojo.ready(function(){
 			    params.returnRoutes = true;
 			    params.returnDirections = true;
 				
+// SUPPOSEDLY SHOULD BE ABLE TO SET THIS TO GET FEATURE SET FOR FACILITIES PARAM, COULDN'T FIGURE IT OUT
 //				dataFileFeatures = new DataFile({
 //					url: chargingStationUrl + "/query?where=1%3D1&returnGeometry=true&outFields=*&f=json"
 //				});
@@ -187,13 +193,13 @@ dojo.ready(function(){
        
         mapMain.addLayer(facilitiesGraphicsLayer);
 				
-        
-		facilitiesGraphicsLayer.add(new Graphic(new Point(-17580710,2432955,mapMain.spatialReference)));
-		facilitiesGraphicsLayer.add(new Graphic(new Point(-17578710,2432955,mapMain.spatialReference)));
+        // TESTING
+		//facilitiesGraphicsLayer.add(new Graphic(new Point(-17580710,2432955,mapMain.spatialReference)));
+		//facilitiesGraphicsLayer.add(new Graphic(new Point(-17578710,2432955,mapMain.spatialReference)));
    
-		//var facilities = new FeatureSet(JSON.stringify(newFacilities.results[0]));
-        var facilities = new FeatureSet();
-        facilities.features = facilitiesGraphicsLayer.graphics;
+		var facilities = new FeatureSet(newFacilities.results[0]);
+        //var facilities = new FeatureSet();
+        //facilities.features = facilitiesGraphicsLayer.graphics;
         
 
 		
